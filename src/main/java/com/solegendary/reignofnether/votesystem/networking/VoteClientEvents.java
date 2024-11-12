@@ -11,9 +11,9 @@ import java.util.List;
 import java.util.function.Supplier;
 
 @OnlyIn(Dist.CLIENT)
-public class ClientEvents {
+public class VoteClientEvents {
     private static final Minecraft MC = Minecraft.getInstance();
-    public static void loadVoteScreen(ClientboundOpenVotenScreenPacket msg, Supplier<NetworkEvent.Context> ctx) {
+    public static void loadVoteScreen(ClientboundOpenVoteScreenPacket msg, Supplier<NetworkEvent.Context> ctx) {
         List<MapData> maps = msg.getMaps();
         MC.setScreen(new MapSelectionScreen(maps));
     }
