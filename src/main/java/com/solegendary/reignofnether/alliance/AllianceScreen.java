@@ -23,7 +23,8 @@ public class AllianceScreen extends Screen {
     @Override
     protected void init() {
         Collection<PlayerInfo> playerInfoCollection = this.minecraft.getConnection().getOnlinePlayers();
-        this.allianceEntryList = new AllianceEntryList(this.minecraft, playerInfoCollection,this.width, this.height, 80, 160, 36);
+        this.allianceEntryList = new AllianceEntryList(this.minecraft, playerInfoCollection,this.width, this.height, 80, 360, 24 + 8);
+        this.addWidget(allianceEntryList);
     }
 
     @Override
