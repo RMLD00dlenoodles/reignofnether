@@ -12,16 +12,16 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Supplier;
 
 
-public class ClientboundOpenVotenScreenPacket {
+public class ClientboundOpenVoteScreenPacket {
 
 
     private final List<MapData> maps;
 
-    public ClientboundOpenVotenScreenPacket(List<MapData> maps) {
+    public ClientboundOpenVoteScreenPacket(List<MapData> maps) {
         this.maps = Lists.newArrayList(maps);
     }
 
-    public ClientboundOpenVotenScreenPacket(FriendlyByteBuf buf) {
+    public ClientboundOpenVoteScreenPacket(FriendlyByteBuf buf) {
         this.maps = buf.readList(mapBuffer -> {
             String name = mapBuffer.readUtf();
             String description = mapBuffer.readUtf();
@@ -45,19 +45,19 @@ public class ClientboundOpenVotenScreenPacket {
         });
     }
 
-    public static boolean handle(ClientboundOpenVotenScreenPacket msg, Supplier<NetworkEvent.Context> ctx) {
+    public static boolean handle(ClientboundOpenVoteScreenPacket msg, Supplier<NetworkEvent.Context> ctx) {
         final var success = new AtomicBoolean(false);
         NetworkEvent.Context context = ctx.get();
         context.enqueueWork(() -> {
-            DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> ClientEvents.loadVoteScreen(msg, ctx));
+            DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> VoteClientEvents.loadVoteScreen(msg, ctx));
             success.set(true);
         });
         context.setPacketHandled(true);
         return success.get();
     }
 
-    public static ClientboundOpenVotenScreenPacket decode(FriendlyByteBuf buf) {
-        return new ClientboundOpenVotenScreenPacket(buf);
+    public static ClientboundOpenVoteScreenPacket decode(FriendlyByteBuf buf) {
+        return new ClientboundOpenVoteScreenPacket(buf);
     }
 
     public List<MapData> getMaps() {return this.maps;}

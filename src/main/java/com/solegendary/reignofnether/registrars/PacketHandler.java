@@ -4,6 +4,7 @@ import com.solegendary.reignofnether.alliance.AllianceClientboundAddPacket;
 import com.solegendary.reignofnether.alliance.AllianceClientboundRemovePacket;
 import com.solegendary.reignofnether.ReignOfNether;
 import com.solegendary.reignofnether.ability.EnchantAbilityServerboundPacket;
+import com.solegendary.reignofnether.alliance.networking.ClientboundOpenAllianceScreenPacket;
 import com.solegendary.reignofnether.attackwarnings.AttackWarningClientboundPacket;
 import com.solegendary.reignofnether.building.BuildingClientboundPacket;
 import com.solegendary.reignofnether.building.BuildingServerboundPacket;
@@ -24,7 +25,7 @@ import com.solegendary.reignofnether.tutorial.TutorialServerboundPacket;
 import com.solegendary.reignofnether.unit.packets.*;
 import com.solegendary.reignofnether.votesystem.networking.VotePacket;
 import com.solegendary.reignofnether.votesystem.networking.VoteSyncPacket;
-import com.solegendary.reignofnether.votesystem.networking.ClientboundOpenVotenScreenPacket;
+import com.solegendary.reignofnether.votesystem.networking.ClientboundOpenVoteScreenPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.network.NetworkDirection;
 import net.minecraftforge.network.NetworkRegistry;
@@ -165,10 +166,12 @@ public final class PacketHandler {
                 .consumer(VoteSyncPacket::handle)
                 .add();
 
-        INSTANCE.messageBuilder(ClientboundOpenVotenScreenPacket.class, index++, NetworkDirection.PLAY_TO_CLIENT)
-                .encoder(ClientboundOpenVotenScreenPacket::encode)
-                .decoder(ClientboundOpenVotenScreenPacket::decode)
-                .consumer(ClientboundOpenVotenScreenPacket::handle)
-                .add();
+        INSTANCE.messageBuilder(ClientboundOpenVoteScreenPacket.class, index++, NetworkDirection.PLAY_TO_CLIENT)
+                .encoder(ClientboundOpenVoteScreenPacket::encode).decoder(ClientboundOpenVoteScreenPacket::new)
+                .consumer(ClientboundOpenVoteScreenPacket::handle).add();
+
+        INSTANCE.messageBuilder(ClientboundOpenAllianceScreenPacket.class, index++, NetworkDirection.PLAY_TO_CLIENT)
+                .encoder(ClientboundOpenAllianceScreenPacket::encode).decoder(ClientboundOpenAllianceScreenPacket::new)
+                .consumer(ClientboundOpenAllianceScreenPacket::handle).add();
     }
 }
